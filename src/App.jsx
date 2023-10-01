@@ -1,28 +1,38 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useState, useRef, useEffect } from "react";
 import "./App.css";
 import "../src/styles/reset.css";
 
-// function App() {
-//   const [count, setCount] = useState(0);
+import ButtonComponent from "./ButtonComponent";
+import { Counter } from "./ButtonComponent2";
+import { render } from "@testing-library/react";
 
-//   return <h1>Our first test</h1>;
-// }
+// using a ref doesnt make the component rerender when it is updated
 
 const App = () => {
-  const [heading, setHeading] = useState("Magnificent Monkeys");
+  const [name, setName] = useState("");
+  // const renderCount = useRef(0);
+  const prevName = useRef("");
 
-  const clickHandler = () => {
-    setHeading("Radical Rhinos");
-  };
+  // useEffect(() => {
+  //   renderCount.current = renderCount.current + 1;
+  // });
+
+  // function focus() {
+  //   inputRef.current.focus();
+  //   inputRef.current.value = "some value";
+  // }
+
+  useEffect(() => {
+    prevName.current = name;
+  }, [name]);
 
   return (
     <>
-      <button type="button" onClick={clickHandler}>
-        Click Me
-      </button>
-      <h1>{heading}</h1>
+      <input value={name} onChange={(e) => setName(e.target.value)} />
+      <div>
+        My name is {name} and it was {prevName.current}
+      </div>
+      <button onClick={focus}>Focus</button>
     </>
   );
 };
